@@ -19,7 +19,7 @@ def import_numerical_data(filename):
 def import_1d_data(filename):
     if os.path.exists(filename):
         f = open(filename, "r")
-        data = map(lambda str: convert_to_float(str), f.readlines())
+        data = [ float(line) for line in rstrip(f('\n'))]
         return data
     else:
         print "file does not exist"
