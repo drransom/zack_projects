@@ -19,7 +19,7 @@ def import_numerical_data(filename):
 def import_1d_data(filename):
     if os.path.exists(filename):
         f = open(filename, "r")
-        data = [ float(line) for line in rstrip(f('\n'))]
+        data = [ convert_to_float(line.rstrip('\n')) for line in f.readlines() ]
         return data
     else:
         print "file does not exist"
@@ -53,6 +53,7 @@ class DataAnalyzer:
         self.independent = import_numerical_data(independent)
         self.dependent = import_1d_data(dependent)
         self.clf = linear_model.LinearRegression()
+        self.randomForest = RandomForestRegressor()
 
     def fit(self, maxlines = False):
         if not maxlines:
@@ -79,10 +80,17 @@ class DataAnalyzer:
         predicted = self.predict(num_training)
         return stats.pearsonr(predicted, self.dependent[num_training:])
 
+    def random_forest_fit(self):
+        return self.randomForest.fit(self.independent, self.dependent)
+
+    def random_forest_predict(self):
+        self.random_forest_fit()
+        return self.randomForest.predict(self.independent)
+
 
 if __name__ == "__main__":
     filename1 = './MachineLearningASCIIData/LARain1901_2010.txt'
     filename2 = './MachineLearningASCIIData/TBOT_Alphas.txt'
     analyzer = DataAnalyzer(filename2, filename1)
     # analyzer.fit()
-    print analyzer.correllation_validate(60)
+    print analyzer.random_forest_predict()
