@@ -1,12 +1,7 @@
-import numpy
 import os
-import scipy
 from scipy import stats
-import sklearn
 from sklearn import linear_model
-from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import RandomForestRegressor
-
 
 def import_numerical_data(filename):
     if os.path.exists(filename):
@@ -30,23 +25,6 @@ def convert_to_float(str):
         return num
     except ValueError:
         print "unable to parse string %s as float" % str
-
-def regress_from_data(independent, dependent, maxlines = False):
-    if maxlines:
-        independent = independent[:maxlines]
-        dependent = dependent[:maxlines]
-
-    clf = linear_model.LinearRegression()
-    clf.fit(independent, dependent)
-    # LinearRegression(copy_X=True, fit_intercept=True, n_jobs=1, normalize=False))
-    return clf
-
-def regress_and_predict_from_files(independent, dependent, num_training = False, end = False):
-    if not num_training:
-        num_training = len(independent)
-    clf = DataAnalyzer(independent, dependent)
-    clf.fit(num_training)
-    return clf.predict(num_training, end)
 
 class DataAnalyzer:
     def __init__(self, independent, dependent):
