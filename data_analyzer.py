@@ -9,7 +9,8 @@ def import_numerical_data(filename):
         data = map(lambda arr: map(lambda str: convert_to_float(str), arr.split()), f.readlines())
         return data
     else:
-        print "file does not exist"
+        error = "file %s does not exist" % filename
+        raise IOError(error)
 
 def import_1d_data(filename):
     if os.path.exists(filename):
@@ -17,7 +18,8 @@ def import_1d_data(filename):
         data = [ convert_to_float(line.rstrip('\n')) for line in f.readlines() ]
         return data
     else:
-        print "file does not exist"
+        error = "file %s does not exist" % filename
+        raise IOError(error)
 
 def convert_to_float(str):
     try:
@@ -67,8 +69,9 @@ class DataAnalyzer:
 
 
 if __name__ == "__main__":
-    filename1 = './MachineLearningASCIIData/LARain1901_2010.txt'
-    filename2 = './MachineLearningASCIIData/TBOT_Alphas.txt'
-    analyzer = DataAnalyzer(filename2, filename1)
-    # analyzer.fit()
-    print analyzer.random_forest_predict()
+    import_numerical_data('abc')
+    # filename1 = './MachineLearningASCIIData/LARain1901_2010.txt'
+    # filename2 = './MachineLearningASCIIData/TBOT_Alphas.txt'
+    # analyzer = DataAnalyzer(filename2, filename1)
+    # # analyzer.fit()
+    # print analyzer.random_forest_predict()
